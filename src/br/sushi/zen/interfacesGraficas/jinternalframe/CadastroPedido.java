@@ -239,8 +239,8 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
 
     private void botaoIncluirProduto() {
         try {
-            if (!"".equals(jTFQuantidade.getText())
-                    && Integer.valueOf(jTFQuantidade.getText()) > 0) {
+            if (!"".equals(jTFQuantidadeProduto.getText())
+                    && Integer.valueOf(jTFQuantidadeProduto.getText()) > 0) {
                 //pegando o produto selecionado
                 Produto produtoSelecionado = listaProdutos.get(jCBProdutos.getSelectedIndex());
 
@@ -257,7 +257,7 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
 
                 //pegando dados do produto
                 BigDecimal valorProduto = new BigDecimal(produtoSelecionado.getValor().doubleValue()).setScale(2, RoundingMode.HALF_EVEN);
-                String valorProdutoVezesQuantidade = String.valueOf(produtoSelecionado.getValor().doubleValue() * Integer.valueOf(jTFQuantidade.getText()));
+                String valorProdutoVezesQuantidade = String.valueOf(produtoSelecionado.getValor().doubleValue() * Integer.valueOf(jTFQuantidadeProduto.getText()));
                 BigDecimal valorTotalProduto = new BigDecimal(valorProdutoVezesQuantidade).setScale(2, RoundingMode.HALF_EVEN);
 
                 //criando pedido_produto
@@ -265,7 +265,7 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
                 pedidoProduto.setNome(produtoSelecionado.getNome());
                 pedidoProduto.setId_produto(produtoSelecionado.getId_produto());
                 pedidoProduto.setValor_unitario(valorProduto);
-                pedidoProduto.setQuantidade(Integer.valueOf(jTFQuantidade.getText()));
+                pedidoProduto.setQuantidade(Integer.valueOf(jTFQuantidadeProduto.getText()));
                 pedidoProduto.setValor_total_cobrado(valorTotalProduto);
                 pedidoProduto.setValor_total(valorTotalProduto);
 
@@ -287,14 +287,14 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
     }
     
     private void mudarQuantidadeDeUmProduto(){
-        if (Integer.valueOf(jTFQuantidade.getText()) != Integer.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString())) {
+        if (Integer.valueOf(jTFQuantidadeProduto.getText()) != Integer.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString())) {
             int linhaSelecionada = jTable1.getSelectedRow();
             try {
                 excluirProduto();
                 Produto produtoSelecionado = listaProdutos.get(jCBProdutos.getSelectedIndex());
                 //pegando dados do produto
                 BigDecimal valorProduto = new BigDecimal(produtoSelecionado.getValor().doubleValue()).setScale(2, RoundingMode.HALF_EVEN);
-                String valorProdutoVezesQuantidade = String.valueOf(produtoSelecionado.getValor().doubleValue() * Integer.valueOf(jTFQuantidade.getText()));
+                String valorProdutoVezesQuantidade = String.valueOf(produtoSelecionado.getValor().doubleValue() * Integer.valueOf(jTFQuantidadeProduto.getText()));
                 BigDecimal valorTotalProduto = new BigDecimal(valorProdutoVezesQuantidade).setScale(2, RoundingMode.HALF_EVEN);
 
                 //criando pedido_produto
@@ -302,7 +302,7 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
                 pedidoProduto.setNome(produtoSelecionado.getNome());
                 pedidoProduto.setId_produto(produtoSelecionado.getId_produto());
                 pedidoProduto.setValor_unitario(valorProduto);
-                pedidoProduto.setQuantidade(Integer.valueOf(jTFQuantidade.getText()));
+                pedidoProduto.setQuantidade(Integer.valueOf(jTFQuantidadeProduto.getText()));
                 pedidoProduto.setValor_total_cobrado(valorTotalProduto);
                 pedidoProduto.setValor_total(valorTotalProduto);
 
@@ -366,7 +366,7 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jCBProdutos = new javax.swing.JComboBox();
-        jTFQuantidade = new javax.swing.JTextField();
+        jTFQuantidadeProduto = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jBIncluirProduto = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -394,6 +394,8 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
         jBDeletar = new javax.swing.JButton();
         jBAtualizar = new javax.swing.JButton();
         jBSalvar = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        jTFQuantidadeHashi = new javax.swing.JTextField();
 
         setMaximumSize(new java.awt.Dimension(1300, 615));
         setMinimumSize(new java.awt.Dimension(1300, 615));
@@ -514,15 +516,15 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
 
         jCBProdutos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTFQuantidade.setDocument( new documentoSomenteNumeros(5));
-        jTFQuantidade.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTFQuantidade.setText("001");
-        jTFQuantidade.addFocusListener(new java.awt.event.FocusAdapter() {
+        jTFQuantidadeProduto.setDocument( new documentoSomenteNumeros(5));
+        jTFQuantidadeProduto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFQuantidadeProduto.setText("001");
+        jTFQuantidadeProduto.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTFQuantidadeFocusGained(evt);
+                jTFQuantidadeProdutoFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTFQuantidadeFocusLost(evt);
+                jTFQuantidadeProdutoFocusLost(evt);
             }
         });
 
@@ -616,7 +618,7 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
                             .addComponent(jCBProdutos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTFQuantidade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFQuantidadeProduto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -640,11 +642,11 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCBProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTFQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFQuantidadeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBIncluirProduto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
@@ -714,6 +716,20 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
             }
         });
 
+        jLabel15.setText("QTD. Hashi");
+
+        jTFQuantidadeProduto.setDocument( new documentoSomenteNumeros(5));
+        jTFQuantidadeHashi.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTFQuantidadeHashi.setText("001");
+        jTFQuantidadeHashi.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTFQuantidadeHashiFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFQuantidadeHashiFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -746,6 +762,10 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
                             .addComponent(jCBFormaDePagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTFQuantidadeHashi, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTFValorTotalPedido)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -756,16 +776,18 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCBFormaDePagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTFValorTotalPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFValorTotalPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFQuantidadeHashi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jBCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -825,11 +847,11 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
         }
     }//GEN-LAST:event_jBIncluirProdutoKeyReleased
 
-    private void jTFQuantidadeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFQuantidadeFocusGained
-        jTFQuantidade.setSelectionStart(0);
+    private void jTFQuantidadeProdutoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFQuantidadeProdutoFocusGained
+        jTFQuantidadeProduto.setSelectionStart(0);
         // setar a posição final na string, neste caso até o tamanho do texto  
-        jTFQuantidade.setSelectionEnd(jTFQuantidade.getText().length());
-    }//GEN-LAST:event_jTFQuantidadeFocusGained
+        jTFQuantidadeProduto.setSelectionEnd(jTFQuantidadeProduto.getText().length());
+    }//GEN-LAST:event_jTFQuantidadeProdutoFocusGained
 
     private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
         //int colunaClicada = jTable1.columnAtPoint(evt.getPoint());
@@ -841,10 +863,10 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
         }
     }//GEN-LAST:event_jTable1MouseReleased
 
-    private void jTFQuantidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFQuantidadeFocusLost
-        String qtd = jTFQuantidade.getText();
-        jTFQuantidade.setText(corrigiQutantidade(qtd));
-    }//GEN-LAST:event_jTFQuantidadeFocusLost
+    private void jTFQuantidadeProdutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFQuantidadeProdutoFocusLost
+        String qtd = jTFQuantidadeProduto.getText();
+        jTFQuantidadeProduto.setText(corrigiQutantidade(qtd));
+    }//GEN-LAST:event_jTFQuantidadeProdutoFocusLost
 
     private void jTable1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTable1FocusLost
 
@@ -903,6 +925,17 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
     private void jTFQuantidadeTotalProdutosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFQuantidadeTotalProdutosFocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFQuantidadeTotalProdutosFocusLost
+
+    private void jTFQuantidadeHashiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFQuantidadeHashiFocusGained
+        jTFQuantidadeHashi.setSelectionStart(0);
+        // setar a posição final na string, neste caso até o tamanho do texto  
+        jTFQuantidadeHashi.setSelectionEnd(jTFQuantidadeHashi.getText().length());
+    }//GEN-LAST:event_jTFQuantidadeHashiFocusGained
+
+    private void jTFQuantidadeHashiFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFQuantidadeHashiFocusLost
+        String qtd = jTFQuantidadeHashi.getText();
+        jTFQuantidadeHashi.setText(corrigiQutantidade(qtd));
+    }//GEN-LAST:event_jTFQuantidadeHashiFocusLost
       
     public String corrigiQutantidade(String qtd) {
         if (qtd.length() == 1) {
@@ -1073,6 +1106,7 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1094,7 +1128,8 @@ public final class CadastroPedido extends javax.swing.JInternalFrame implements 
     private javax.swing.JTextField jTFData;
     public javax.swing.JTextField jTFEndereco;
     public javax.swing.JTextField jTFNomeCliente;
-    private javax.swing.JTextField jTFQuantidade;
+    private javax.swing.JTextField jTFQuantidadeHashi;
+    private javax.swing.JTextField jTFQuantidadeProduto;
     private javax.swing.JTextField jTFQuantidadeProdutos;
     private javax.swing.JTextField jTFQuantidadeTotalProdutos;
     public javax.swing.JTextField jTFTelefone;
