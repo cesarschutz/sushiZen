@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sushiZenPedidos" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="833b5200-73b6-43dc-a1a8-ee3535544b20">
+	<property name="ireport.zoom" value="1.6105100000000119"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataInicial" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="dataFinal" class="java.lang.String"/>
+	<parameter name="caminhoPlaca" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     GASTOS."NOME" AS GASTOS_NOME,
+     GASTOS."DATA" AS GASTOS_DATA,
+     CATEGORIAS_GASTO."NOME" AS CATEGORIAS_GASTO_NOME,
+     GASTOS."VALOR" AS GASTOS_VALOR,
+     GASTOS."ID_GASTO" AS GASTOS_ID_GASTO
+FROM
+     "CATEGORIAS_GASTO" CATEGORIAS_GASTO INNER JOIN "GASTOS" GASTOS ON CATEGORIAS_GASTO."ID_CATEGORIA_GASTO" = GASTOS."ID_CATEGORIA_GASTO"
+WHERE
+     ( GASTOS.DATA > '$P!{dataInicial}' or GASTOS.DATA = '$P!{dataInicial}' ) and
+     ( GASTOS.DATA < '$P!{dataFinal}' or GASTOS.DATA = '$P!{dataFinal}' )
+ORDER BY
+     GASTOS.ID_GASTO ASC]]>
+	</queryString>
+	<field name="GASTOS_NOME" class="java.lang.String"/>
+	<field name="GASTOS_DATA" class="java.sql.Date"/>
+	<field name="CATEGORIAS_GASTO_NOME" class="java.lang.String"/>
+	<field name="GASTOS_VALOR" class="java.lang.Double"/>
+	<field name="GASTOS_ID_GASTO" class="java.lang.Integer"/>
+	<variable name="totaPagina" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{GASTOS_VALOR}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="totalRelatorio" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{GASTOS_VALOR}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="quantidadePedidosPagina" class="java.lang.Double" resetType="Page" calculation="Count">
+		<variableExpression><![CDATA[$F{GASTOS_VALOR}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="quantidadePedidosRelatorio" class="java.lang.Double" calculation="Count">
+		<variableExpression><![CDATA[$F{GASTOS_VALOR}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<title>
+		<band height="125">
+			<image scaleImage="FillFrame">
+				<reportElement x="-22" y="0" width="601" height="125" uuid="4c207254-6788-4fc1-beca-54e4d1fc951e"/>
+				<imageExpression><![CDATA[$P{caminhoPlaca}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="54">
+			<staticText>
+				<reportElement x="0" y="26" width="63" height="27" uuid="c0781ecc-e8e0-45c0-9519-7be6e87936c0"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Período:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="26" uuid="8b53436a-ab49-45da-b9ee-829506ee2127"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Relatório de Gastos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="27" width="12" height="27" uuid="84f0cb94-c61c-4c99-8022-fe989c1cfdc3"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[à]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="63" y="26" width="82" height="27" uuid="7f8163f2-1ab2-4ef3-9487-91a93ca8ce83"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataInicial}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="165" y="26" width="200" height="26" uuid="628df2b3-c587-42dc-b264-f2d15bf9a2a3"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataFinal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="13">
+			<staticText>
+				<reportElement mode="Opaque" x="361" y="0" width="126" height="13" forecolor="#006699" backcolor="#E6E6E6" uuid="62e2519d-47ec-468b-8e16-de8222dc4c97"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CATEGORIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="487" y="0" width="68" height="13" forecolor="#006699" backcolor="#E6E6E6" uuid="ca74c823-765b-44ec-a923-b7452008df99"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="105" y="0" width="256" height="13" forecolor="#006699" backcolor="#E6E6E6" uuid="23e1b1ab-c2fc-4912-a480-4b30e9c742a6"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="63" height="13" forecolor="#006699" backcolor="#E6E6E6" uuid="a21e7bdb-567e-4ca6-b989-80c22ba28826"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="63" y="0" width="42" height="13" forecolor="#006699" backcolor="#E6E6E6" uuid="05914841-529f-4f1a-bfc1-e398306cd31c"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="13" width="555" height="1" forecolor="#B4B4B4" uuid="d2c1f350-d28b-46bf-b62b-14efce77e914"/>
+			</line>
+			<textField>
+				<reportElement x="361" y="0" width="126" height="13" uuid="0074a59a-8dcd-497f-b831-88dd0c8e0d27"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CATEGORIAS_GASTO_NOME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="487" y="1" width="68" height="13" uuid="21650534-c610-4320-83e5-d94bfbd07dba"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GASTOS_VALOR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="63" y="1" width="42" height="13" uuid="80dd82a4-359c-48fb-8776-4ed08ba392de"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GASTOS_ID_GASTO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="1" width="63" height="13" uuid="89a73b4c-1166-440b-93ea-f37f82ee090d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GASTOS_DATA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="1" width="256" height="13" uuid="5e515478-2787-4f29-84c0-ceeb2a50784f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GASTOS_NOME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15">
+			<staticText>
+				<reportElement mode="Opaque" x="376" y="0" width="111" height="15" backcolor="#E6E6E6" uuid="31e6d7f7-e3f5-4f62-96b9-5ba43c8d4649"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Valor Total da Página:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement mode="Opaque" x="487" y="0" width="68" height="15" backcolor="#E6E6E6" uuid="ffd0892f-90a5-41c1-86c2-765eb26389fd"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{totaPagina}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement mode="Opaque" x="317" y="0" width="44" height="15" backcolor="#E6E6E6" uuid="42ae69a1-17cc-4c66-82b8-03312a2cc8b1"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{quantidadePedidosPagina}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="184" y="0" width="133" height="15" backcolor="#E6E6E6" uuid="0661e5c0-e97e-4c67-8768-776d01d42bca"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Qtd de Gastos da Página:]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="13">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="13" backcolor="#E6E6E6" uuid="d4ed3ffe-aab6-4c0e-aad6-2be5a5a39bb8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="0" width="40" height="13" backcolor="#E6E6E6" uuid="c7da6849-5435-4ff0-878b-9221bdf05c2d"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="0" width="283" height="13" uuid="d4d2e515-555b-4c49-9827-b76a3297111f"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="21">
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement mode="Opaque" x="487" y="6" width="68" height="15" backcolor="#E6E6E6" uuid="0163f925-b0b1-4dd0-9c07-c4e9315aa631"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{totalRelatorio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="376" y="6" width="111" height="15" backcolor="#E6E6E6" uuid="3cad100c-d958-4462-b807-701fe5ed238c"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Valor Total do Relatório:]]></text>
+			</staticText>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement mode="Opaque" x="317" y="6" width="44" height="15" backcolor="#E6E6E6" uuid="0d37c370-e121-42b7-bf59-fedc77516f44"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{quantidadePedidosRelatorio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="184" y="6" width="133" height="15" backcolor="#E6E6E6" uuid="58abed9d-764e-4448-864d-f19549b24686"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Qtd de Gastos do Relatório:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

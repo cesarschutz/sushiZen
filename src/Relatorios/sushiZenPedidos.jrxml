@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sushiZenPedidos" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="833b5200-73b6-43dc-a1a8-ee3535544b20">
+	<property name="ireport.zoom" value="1.6105100000000119"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataInicial" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="dataFinal" class="java.lang.String"/>
+	<parameter name="caminhoPlaca" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     FORMAS_DE_PAGAMENTO."NOME" AS FORMAS_DE_PAGAMENTO_NOME,
+     PEDIDOS."DATA" AS PEDIDOS_DATA,
+     PEDIDOS."VALOR_TOTAL" AS PEDIDOS_VALOR_TOTAL,
+     CLIENTE."NOME" AS CLIENTE_NOME,
+     PEDIDOS."ID_PEDIDO" AS PEDIDOS_ID_PEDIDO
+FROM
+     "FORMAS_DE_PAGAMENTO" FORMAS_DE_PAGAMENTO INNER JOIN "PEDIDOS" PEDIDOS ON FORMAS_DE_PAGAMENTO."ID_FORMA_DE_PAGAMENTO" = PEDIDOS."ID_FORMA_DE_PAGAMENTO"
+     INNER JOIN "CLIENTE" CLIENTE ON PEDIDOS."ID_CLIENTE" = CLIENTE."ID_CLIENTE"
+WHERE
+     ( PEDIDOS.DATA > '$P!{dataInicial}' or PEDIDOS.DATA = '$P!{dataInicial}' ) and
+     ( PEDIDOS.DATA < '$P!{dataFinal}' or PEDIDOS.DATA = '$P!{dataFinal}' )
+ORDER BY
+     PEDIDOS.DATA ASC,
+     FORMAS_DE_PAGAMENTO.NOME ASC,
+     PEDIDOS.ID_PEDIDO ASC]]>
+	</queryString>
+	<field name="FORMAS_DE_PAGAMENTO_NOME" class="java.lang.String"/>
+	<field name="PEDIDOS_DATA" class="java.sql.Date"/>
+	<field name="PEDIDOS_VALOR_TOTAL" class="java.lang.Double"/>
+	<field name="CLIENTE_NOME" class="java.lang.String"/>
+	<field name="PEDIDOS_ID_PEDIDO" class="java.lang.Integer"/>
+	<variable name="totaPagina" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{PEDIDOS_VALOR_TOTAL}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="totalRelatorio" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{PEDIDOS_VALOR_TOTAL}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="quantidadePedidosPagina" class="java.lang.Double" resetType="Page" calculation="Count">
+		<variableExpression><![CDATA[$F{PEDIDOS_VALOR_TOTAL}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="quantidadePedidosRelatorio" class="java.lang.Double" calculation="Count">
+		<variableExpression><![CDATA[$F{PEDIDOS_VALOR_TOTAL}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<title>
+		<band height="125">
+			<image scaleImage="FillFrame">
+				<reportElement x="-22" y="0" width="599" height="125" uuid="96c34b94-9b22-4b91-af5f-53626809cd2e"/>
+				<imageExpression><![CDATA[$P{caminhoPlaca}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="54">
+			<staticText>
+				<reportElement x="0" y="26" width="63" height="27" uuid="c0781ecc-e8e0-45c0-9519-7be6e87936c0"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Período:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="26" uuid="8b53436a-ab49-45da-b9ee-829506ee2127"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Relatório de Pedidos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="27" width="12" height="27" uuid="84f0cb94-c61c-4c99-8022-fe989c1cfdc3"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[à]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="63" y="26" width="82" height="27" uuid="7f8163f2-1ab2-4ef3-9487-91a93ca8ce83"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataInicial}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="165" y="26" width="200" height="26" uuid="628df2b3-c587-42dc-b264-f2d15bf9a2a3"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataFinal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="13">
+			<staticText>
+				<reportElement mode="Opaque" x="361" y="0" width="126" height="13" forecolor="#006699" backcolor="#E6E6E6" uuid="62e2519d-47ec-468b-8e16-de8222dc4c97"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORMA DE PAGAMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="487" y="0" width="68" height="13" forecolor="#006699" backcolor="#E6E6E6" uuid="ca74c823-765b-44ec-a923-b7452008df99"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="105" y="0" width="256" height="13" forecolor="#006699" backcolor="#E6E6E6" uuid="23e1b1ab-c2fc-4912-a480-4b30e9c742a6"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="63" height="13" forecolor="#006699" backcolor="#E6E6E6" uuid="a21e7bdb-567e-4ca6-b989-80c22ba28826"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="63" y="0" width="42" height="13" forecolor="#006699" backcolor="#E6E6E6" uuid="05914841-529f-4f1a-bfc1-e398306cd31c"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="13" width="555" height="1" forecolor="#B4B4B4" uuid="d2c1f350-d28b-46bf-b62b-14efce77e914"/>
+			</line>
+			<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00">
+				<reportElement x="487" y="0" width="68" height="13" uuid="cb8d3de6-f32a-4e16-bf87-a8ae3829ac10"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PEDIDOS_VALOR_TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="105" y="0" width="256" height="13" uuid="e1094518-7d7b-42a1-9e65-24a7bbaca79e"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CLIENTE_NOME}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="63" height="13" uuid="6fe6edf1-552e-4c2a-b7a2-98c83d380e82"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PEDIDOS_DATA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="361" y="0" width="126" height="13" uuid="ca1e2370-bf23-46f1-b89f-19175ba0b068"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FORMAS_DE_PAGAMENTO_NOME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="63" y="0" width="42" height="13" uuid="6b919431-5c1a-45cc-9f38-be45e96f7fc7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{PEDIDOS_ID_PEDIDO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15">
+			<staticText>
+				<reportElement mode="Opaque" x="376" y="0" width="111" height="15" backcolor="#E6E6E6" uuid="31e6d7f7-e3f5-4f62-96b9-5ba43c8d4649"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Valor Total da Página:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement mode="Opaque" x="487" y="0" width="68" height="15" backcolor="#E6E6E6" uuid="ffd0892f-90a5-41c1-86c2-765eb26389fd"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{totaPagina}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement mode="Opaque" x="317" y="0" width="44" height="15" backcolor="#E6E6E6" uuid="42ae69a1-17cc-4c66-82b8-03312a2cc8b1"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{quantidadePedidosPagina}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="184" y="0" width="133" height="15" backcolor="#E6E6E6" uuid="0661e5c0-e97e-4c67-8768-776d01d42bca"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Qtd de Pedidos da Página:]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="13">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="13" backcolor="#E6E6E6" uuid="d4ed3ffe-aab6-4c0e-aad6-2be5a5a39bb8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="0" width="40" height="13" backcolor="#E6E6E6" uuid="c7da6849-5435-4ff0-878b-9221bdf05c2d"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="0" width="283" height="13" uuid="d4d2e515-555b-4c49-9827-b76a3297111f"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="21">
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement mode="Opaque" x="487" y="6" width="68" height="15" backcolor="#E6E6E6" uuid="0163f925-b0b1-4dd0-9c07-c4e9315aa631"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{totalRelatorio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="376" y="6" width="111" height="15" backcolor="#E6E6E6" uuid="3cad100c-d958-4462-b807-701fe5ed238c"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Valor Total do Relatório:]]></text>
+			</staticText>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement mode="Opaque" x="317" y="6" width="44" height="15" backcolor="#E6E6E6" uuid="0d37c370-e121-42b7-bf59-fedc77516f44"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{quantidadePedidosRelatorio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="184" y="6" width="133" height="15" backcolor="#E6E6E6" uuid="58abed9d-764e-4448-864d-f19549b24686"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Qtd de Pedidos do Relatório:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
