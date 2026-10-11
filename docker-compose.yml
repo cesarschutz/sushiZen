@@ -1,0 +1,13 @@
+# Firebird 2.5 (o .FDB é ODS 11, não abre direto no Firebird 3+).
+# Usa uma cópia do banco em docker/data para não alterar o DBSUSHIZEN.FDB original.
+services:
+  firebird:
+    image: jacobalberty/firebird:2.5-ss
+    platform: linux/amd64
+    container_name: sushizen-firebird
+    environment:
+      ISC_PASSWORD: masterkey
+    ports:
+      - "3051:3050"
+    volumes:
+      - ./docker/data:/firebird/data

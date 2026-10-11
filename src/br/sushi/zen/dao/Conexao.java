@@ -26,7 +26,9 @@ public class Conexao {
         props.put("charset", "UTF8");
         props.put("lc_ctype", "ISO8859_1");
 
-        Connection con = DriverManager.getConnection("jdbc:firebirdsql:localhost/3050:C:\\DBSUSHIZEN.FDB", props);
+        //permite trocar o banco com -Dsushizen.db.url=... (ex.: Firebird no docker)
+        String url = System.getProperty("sushizen.db.url", "jdbc:firebirdsql:localhost/3050:C:\\DBSUSHIZEN.FDB");
+        Connection con = DriverManager.getConnection(url, props);
         
         return con;
     }
